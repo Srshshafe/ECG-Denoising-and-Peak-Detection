@@ -1,0 +1,15 @@
+function dxdt = ECG(t,f,thetai,ai,bi)
+x=f(1);
+y=f(2);
+z=f(3);
+f2 = 0.25;
+f1=1.2;
+omega=2*pi*f1;
+eta = 0.00015*sin(2*pi*f2*t);
+alpha = 1- sqrt(x^2 + y^2);
+theta = atan2(y,x);
+deltathetai = rem(theta - thetai, 2*pi);
+dxdt(1) = alpha*x - omega.*y;
+dxdt(2)= alpha*y + omega.*x;
+dxdt(3)= -sum((ai.*deltathetai.*omega./bi.^2).*exp(-0.5*deltathetai.^2./bi.^2))-z+eta;
+dxdt = dxdt';
